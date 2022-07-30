@@ -6,3 +6,4 @@ export const USER_ADD = "USER_ADD";
 export const USER_UPDATE = "USER_UPDATE";
 
 export const ROLE_ADD = "ROLE_ADD";
+export const ROLES_FETCH = "ROLES_FETCH";

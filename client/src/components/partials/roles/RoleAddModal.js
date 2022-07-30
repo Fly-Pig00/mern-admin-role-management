@@ -25,9 +25,9 @@ class RoleAddModal extends React.Component {
                 errors: nextProps.errors
             });
         }
-        if (nextProps.role !== undefined) {
+        if (nextProps.roles.added !== undefined) {
             $('#add-role-modal').modal('hide');
-            toast(nextProps.role.role.data.message, {
+            toast(nextProps.roles.added.data.message, {
                 position: toast.POSITION.TOP_CENTER
             });
         }
@@ -103,7 +103,7 @@ RoleAddModal.propTypes = {
 const mapStateToProps = state => ({
     auth: state.auth,
     errors: state.errors,
-    role: state.role,
+    roles: state.roles,
 });
 
 export default connect(

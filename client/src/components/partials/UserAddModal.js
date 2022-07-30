@@ -21,7 +21,6 @@ class UserAddModal extends React.Component {
             errors: {},
         };
     }
-
     componentWillReceiveProps(nextProps) {
         if (nextProps.errors) {
             this.setState({
@@ -49,13 +48,19 @@ class UserAddModal extends React.Component {
             name: this.state.name,
             email: this.state.email,
             password: this.state.password,
-            password2: this.state.password2
+            password2: this.state.password2,
+            roles:[this.state.roles]
         };
         this.props.addUser(newUser, this.props.history);
     };
 
     render() {
         const { errors } = this.state;
+        const options = this.props.roles.data.data && this.props.roles.data.data.map((role, idx) => {
+            return (
+                <option key={idx} value={role._id}>{role.name}</option>
+            )
+        });
         return (
             <div>
                 <div className="modal fade" id="add-user-modal" data-reset="true">
@@ -139,6 +144,24 @@ class UserAddModal extends React.Component {
                                             <span className="text-danger">{errors.password2}</span>
                                         </div>
                                     </div>
+                                    <div className="row mt-2">
+                                        <div className="col-md-3">
+                                            <label htmlFor="password2">Select Role</label>
+                                        </div>
+                                        <div className="col-md-9">
+                                            <select
+                                                onChange={this.onChange}
+                                                value={this.state.roles}
+                                                id="roles"
+                                                className={classnames("form-control", {
+                                                    invalid: errors.roles
+                                                })}
+                                            >
+                                            {options}
+                                            </select>
+                                            <span className="text-danger">{errors.roles}</span>
+                                        </div>
+                                    </div>
                                 </form>
                             </div>
                             <div className="modal-footer">
@@ -166,7 +189,8 @@ UserAddModal.propTypes = {
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    errors: state.errors
+    errors: state.errors,
+    roles: state.roles,
 });
 
 export default connect(

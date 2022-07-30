@@ -11,6 +11,7 @@ import {faPlus} from "@fortawesome/free-solid-svg-icons";
 import UserAddModal from "../partials/UserAddModal";
 import UserUpdateModal from "../partials/UserUpdateModal";
 import { toast, ToastContainer} from "react-toastify";
+import {fetchRoles} from '../../actions/roleActions';
 
 class Users extends Component {
 
@@ -40,9 +41,9 @@ class Users extends Component {
                 sortable: true
             },
             {
-                key: "role",
-                text: "Role",
-                className: "role",
+                key: "roles",
+                text: "Roles",
+                className: "roles",
                 align: "left",
                 sortable: true
             },
@@ -128,6 +129,7 @@ class Users extends Component {
 
     componentDidMount() {
         this.getData()
+        this.props.fetchRoles();
     };
 
     componentWillReceiveProps(nextProps) {
@@ -138,7 +140,13 @@ class Users extends Component {
         axios
             .post("/api/user-data")
             .then(res => {
-                this.setState({ records: res.data})
+                let rcds = res.data.map(record => {
+                    return {
+                        ...record,
+                        roles: record.roles[0] ? record.roles[0].name.toString() : '',
+                    }
+                });
+                this.setState({ records: rcds})
             })
             .catch()
     }
@@ -195,14 +203,17 @@ class Users extends Component {
 }
 
 Users.propTypes = {
+    fetchRoles: PropTypes.func.isRequired,
     auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    records: state.records
+    records: state.records,
+    roles: state.roles,
 });
 
 export default connect(
-    mapStateToProps
+    mapStateToProps,
+    {fetchRoles}
 )(Users);

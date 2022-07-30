@@ -177,7 +177,7 @@ Role.propTypes = {
 const mapStateToProps = state => ({
     auth: state.auth,
     records: state.records,
-    role: state.role,
+    roles: state.roles,
 });
 
 export default connect(

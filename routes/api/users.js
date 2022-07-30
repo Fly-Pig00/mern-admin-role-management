@@ -20,7 +20,7 @@ router.post('/user-add', (req, res) => {
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
-                role: 'User',
+                roles: req.body.roles ? req.body.roles : ['62e4ad4848d9b65f346c9202'],
                 password: req.body.password
             });
             bcrypt.genSalt(10, (err, salt) => {
@@ -39,11 +39,14 @@ router.post('/user-add', (req, res) => {
 });
 
 router.post('/user-data', (req, res) => {
-    User.find({}).select(['-password']).then(user => {
-        if (user) {
-            return res.status(200).send(user);
-        }
-    });
+    User.find({})
+        .select(['-password'])
+        .populate('roles')
+        .then(user => {
+            if (user) {
+                return res.status(200).send(user);
+            }
+        });
 });
 
 router.post('/user-delete', (req, res) => {

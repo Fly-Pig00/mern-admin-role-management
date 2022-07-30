@@ -5,5 +5,5 @@ import roleReducer from "./roleReducers";
 export default combineReducers({
     auth: authReducer,
     errors: errorReducer,
-    role: roleReducer,
+    roles: roleReducer,
 });

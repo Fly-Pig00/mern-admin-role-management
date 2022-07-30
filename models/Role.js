@@ -15,4 +15,4 @@ RoleSchema.set('toJSON', {
     virtuals: true
 });
 
-module.exports = User = mongoose.model("roles", RoleSchema);
+module.exports = Role = mongoose.model("roles", RoleSchema);

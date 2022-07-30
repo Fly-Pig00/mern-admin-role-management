@@ -2,7 +2,7 @@ import axios from "axios";
 import {
     GET_ERRORS,
     ROLE_ADD,
-    USER_UPDATE
+    ROLES_FETCH
 } from "./types";
 
 export const addRole = (roleData, history) => dispatch => {
@@ -21,19 +21,18 @@ export const addRole = (roleData, history) => dispatch => {
         );
 };
 
-
-export const updateUser = (userData) => dispatch => {
+export const fetchRoles = () => dispatch => {
     axios
-        .post("/api/user-update", userData)
+        .post("/api/role-data")
         .then(res =>
             dispatch({
-                type: USER_UPDATE,
+                type: ROLES_FETCH,
                 payload: res,
             })
         ).catch(err =>
-        dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
-        })
-    );
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
 };

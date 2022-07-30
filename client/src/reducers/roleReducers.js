@@ -1,15 +1,23 @@
 import {
-    ROLE_ADD
+    ROLE_ADD,
+    ROLES_FETCH
 } from "../actions/types";
 const isEmpty = require("is-empty");
 const initialState = {
-    role: {},
+    data: {},
+    added: {}
 };
 export default function(state = initialState, action) {
     switch (action.type) {
+        case ROLES_FETCH:
+            return {
+                ...state,
+                data: action.payload
+            }
         case ROLE_ADD:
             return {
-                role: action.payload
+                ...state,
+                added: action.payload
             };
         default:
             return state;

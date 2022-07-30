@@ -20,6 +20,7 @@ router.post('/user-add', (req, res) => {
             const newUser = new User({
                 name: req.body.name,
                 email: req.body.email,
+                role: 'User',
                 password: req.body.password
             });
             bcrypt.genSalt(10, (err, salt) => {

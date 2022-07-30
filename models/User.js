@@ -13,13 +13,17 @@ const UserSchema = new Schema({
         type: String,
         required: true
     },
+    roles: [{ 
+        type: Schema.Types.ObjectId, 
+        ref: 'Role' 
+    }],
     date: {
         type: Date,
         default: Date.now
     }
 });
 
-UserSchema.virtual('id').get(function(){
+UserSchema.virtual('id').get(function () {
     return this._id.toHexString();
 });
 

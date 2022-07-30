@@ -1,26 +1,24 @@
 import axios from "axios";
 import {
     GET_ERRORS,
-    USER_ADD,
+    ROLE_ADD,
     USER_UPDATE
 } from "./types";
 
-export const addUser = (userData, history) => dispatch => {
+export const addRole = (roleData, history) => dispatch => {
     axios
-        .post("/api/user-add", userData)
-        .then(res => {
+        .post("/api/role-add", roleData)
+        .then(res =>
             dispatch({
-                type: USER_ADD,
+                type: ROLE_ADD,
                 payload: res,
             })
-        }
-            
         ).catch(err =>
-        dispatch({
-            type: GET_ERRORS,
-            payload: err.response.data
-        })
-    );
+            dispatch({
+                type: GET_ERRORS,
+                payload: err.response.data
+            })
+        );
 };
 
 

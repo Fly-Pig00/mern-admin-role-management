@@ -8,11 +8,11 @@ import PropTypes from "prop-types";
 import {connect} from "react-redux";
 import axios from "axios";
 import {faPlus} from "@fortawesome/free-solid-svg-icons";
-import UserAddModal from "../partials/UserAddModal";
+import RoleAddModal from "../partials/roles/RoleAddModal";
 import UserUpdateModal from "../partials/UserUpdateModal";
 import { toast, ToastContainer} from "react-toastify";
 
-class Users extends Component {
+class Role extends Component {
 
     constructor(props) {
         super(props);
@@ -31,27 +31,6 @@ class Users extends Component {
                 className: "name",
                 align: "left",
                 sortable: true,
-            },
-            {
-                key: "email",
-                text: "Email",
-                className: "email",
-                align: "left",
-                sortable: true
-            },
-            {
-                key: "role",
-                text: "Role",
-                className: "role",
-                align: "left",
-                sortable: true
-            },
-            {
-                key: "date",
-                text: "Date",
-                className: "date",
-                align: "left",
-                sortable: true
             },
             {
                 key: "action",
@@ -85,8 +64,8 @@ class Users extends Component {
         this.config = {
             page_size: 10,
             length_menu: [ 10, 20, 50 ],
-            filename: "Users",
-            no_data_text: 'No user found!',
+            filename: "Roles",
+            no_data_text: 'No role found!',
             button: {
                 excel: true,
                 print: true,
@@ -117,9 +96,6 @@ class Users extends Component {
             currentRecord: {
                 id: '',
                 name: '',
-                email: '',
-                password: '',
-                password2: '',
             }
         };
 
@@ -136,7 +112,7 @@ class Users extends Component {
 
     getData() {
         axios
-            .post("/api/user-data")
+            .post("/api/role-data")
             .then(res => {
                 this.setState({ records: res.data})
             })
@@ -149,7 +125,7 @@ class Users extends Component {
 
     deleteRecord(record) {
         axios
-            .post("/api/user-delete", {_id: record._id})
+            .post("/api/role-delete", {_id: record._id})
             .then(res => {
                 if (res.status === 200) {
                    toast(res.data.message, {
@@ -171,13 +147,13 @@ class Users extends Component {
                 <Navbar/>
                 <div className="d-flex" id="wrapper">
                     <Sidebar/>
-                    <UserAddModal/>
+                    <RoleAddModal/>
                     <UserUpdateModal record={this.state.currentRecord}/>
                     <div id="page-content-wrapper">
                         <div className="container-fluid">
                             <button className="btn btn-link mt-3" id="menu-toggle"><FontAwesomeIcon icon={faList}/></button>
-                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#add-user-modal"><FontAwesomeIcon icon={faPlus}/> Add User</button>
-                            <h1 className="mt-2 text-primary">Users List</h1>
+                            <button className="btn btn-outline-primary float-right mt-3 mr-2" data-toggle="modal" data-target="#add-role-modal"><FontAwesomeIcon icon={faPlus}/> Add Role</button>
+                            <h1 className="mt-2 text-primary">Roles List</h1>
                             <ReactDatatable
                                 config={this.config}
                                 records={this.state.records}
@@ -194,15 +170,16 @@ class Users extends Component {
 
 }
 
-Users.propTypes = {
+Role.propTypes = {
     auth: PropTypes.object.isRequired,
 };
 
 const mapStateToProps = state => ({
     auth: state.auth,
-    records: state.records
+    records: state.records,
+    role: state.role,
 });
 
 export default connect(
     mapStateToProps
-)(Users);
+)(Role);
